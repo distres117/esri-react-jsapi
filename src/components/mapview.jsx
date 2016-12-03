@@ -2,8 +2,11 @@ import React from 'react';
 import ReactDOM from 'react/react-dom';
 import MapView from 'esri/views/MapView';
 
-const Map = React.createClass({
-  componentDidMount: function() {
+export default class Map extends React.Component{
+  constructor(props){
+    super(props);
+  }
+  componentDidMount() {
     var node = ReactDOM.findDOMNode(this.refs.mapView);
     var view = new MapView({
       container: node,
@@ -14,9 +17,9 @@ const Map = React.createClass({
         components: []
       }
     });
-  },
+  }
 
-  render: function() {
+  render() {
 
     return (
       <div className='mapView' ref='mapView'>
@@ -24,6 +27,4 @@ const Map = React.createClass({
     );
 
   }
-});
-
-export default Map;
+};

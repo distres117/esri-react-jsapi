@@ -2,22 +2,32 @@ import React from 'react';
 import watchUtils from 'esri/core/watchUtils';
 import ZoomViewModel from 'esri/widgets/Zoom/ZoomViewModel';
 
-const Zoom = React.createClass({
+export default class Zoom extends React.Component{
 
-  getInitialState() {
-    return {
+  constructor(props){
+    super(props);
+    this.state = {
       vm: new ZoomViewModel(),
       updating: false,
       maxZoomed: false,
       minZoomed: false
-    };
-  },
-
-  getDefaultProps() {
-    return {
-      view: {}
     }
-  },
+  }
+  
+  static defaultProps = {
+    view:{}
+  }
+  zoomIn = ()=> {
+    if (!this.state.maxZoomed) {
+      this.state.vm.zoomIn();
+    }
+  }
+
+  zoomOut=()=> {
+    if (!this.state.minZoomed) {
+      this.state.vm.zoomOut();
+    }
+  }
 
   componentDidMount() {
     this.props.view.then(view => {
@@ -32,19 +42,7 @@ const Zoom = React.createClass({
         this.setState({ updating });
       });
     });
-  },
-
-  zoomIn() {
-    if (!this.state.maxZoomed) {
-      this.state.vm.zoomIn();
-    }
-  },
-
-  zoomOut() {
-    if (!this.state.minZoomed) {
-      this.state.vm.zoomOut();
-    }
-  },
+  }
 
   render() {
 
@@ -64,6 +62,6 @@ const Zoom = React.createClass({
     );
 
   }
-});
+};
 
-export default Zoom;
+

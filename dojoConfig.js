@@ -1,4 +1,4 @@
-var locationPath = location.pathname.replace(/\/[^\/]+$/, '');
+var locationPath = location.href;
 
 window.dojoConfig = {
   async: true,

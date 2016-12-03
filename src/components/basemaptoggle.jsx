@@ -4,28 +4,37 @@ import BasemapToggleViewModel from 'esri/widgets/BasemapToggle/BasemapToggleView
 
 function bgImage(url) {
   return {
-    backgroundImage: 'url(' + url + ')'
+    backgroundImage: `url(${url || ''})`
   };
 }
 
-const BasemapToggle = React.createClass({
-
-  getInitialState() {
-    return {
+export default class BasemapToggle extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
       vm: new BasemapToggleViewModel(),
       secondaryThumbnailUrl: ''
     };
-  },
-
-  getDefaultProps() {
-    return {
+  }
+  static defaultProps = {
       view: {},
       secondaryThumbnailUrl: '',
       currentThumbnailUrl: '',
       updating: false
-    }
-  },
+  };
+  updateThumbnails = (secondary, current)=> {
+    let secInfo = this.state.vm.getBasemapInfo(secondary);
+    let curInfo = this.state.vm.getBasemapInfo(current);
+    this.setState({
+      secondaryThumbnailUrl: secInfo.thumbnailUrl,
+      currentThumbnailUrl: curInfo.thumbnailUrl
+    });
+  }
 
+  toggle = ()=> {
+    this.state.vm.toggle();
+  } 
+  
   componentDidMount() {
     this.props.view.then(view => {
 
@@ -47,20 +56,7 @@ const BasemapToggle = React.createClass({
       });
 
     });
-  },
-
-  updateThumbnails(secondary, current) {
-    let secInfo = this.state.vm.getBasemapInfo(secondary);
-    let curInfo = this.state.vm.getBasemapInfo(current);
-    this.setState({
-      secondaryThumbnailUrl: secInfo.thumbnailUrl,
-      currentThumbnailUrl: curInfo.thumbnailUrl
-    });
-  },
-
-  toggle() {
-    this.state.vm.toggle();
-  },
+  }
 
   render() {
 
@@ -81,6 +77,4 @@ const BasemapToggle = React.createClass({
 
   }
 
-});
-
-export default BasemapToggle;
+};

@@ -2,21 +2,19 @@ import React from 'react';
 import watchUtils from 'esri/core/watchUtils';
 import AttributionViewModel from 'esri/widgets/Attribution/AttributionViewModel';
 
-const Attribution = React.createClass({
+export default class Attribution extends React.Component{
 
-  getInitialState() {
-    return {
+  constructor(props){
+    super(props);
+    this.state = {
       vm: new AttributionViewModel(),
       attribution: '',
       updating: false
-    };
-  },
-
-  getDefaultProps() {
-    return {
-      view: {}
     }
-  },
+    this.props = {
+      view:{}
+    }
+  }
 
   componentDidMount() {
     this.props.view.then(view => {
@@ -28,7 +26,7 @@ const Attribution = React.createClass({
         this.setState({ updating });
       });
     });
-  },
+  }
 
   render() {
 
@@ -42,6 +40,4 @@ const Attribution = React.createClass({
 
   }
 
-});
-
-export default Attribution;
+};
