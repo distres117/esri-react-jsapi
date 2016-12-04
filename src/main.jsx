@@ -1,34 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react/react-dom';
 import Map from 'esri/Map';
-// NOTE - adding the mapvidew as JSX was odd
-// Because I need to pass the view around to
-// components.
-// I'll revisit this later
-//import MapView from 'app/components/mapview';
 import MapView from 'esri/views/MapView';
+import WebMap from 'esri/WebMap';
 import Zoom from 'app/components/zoom';
+import Navbar from './components/navbar';
 import Attribution from 'app/components/attribution';
+import Selector from './components/selector';
 import BasemapToggle from 'app/components/basemaptoggle';
 import 'dojo/domReady!';
 
-const map = new Map({ basemap: 'streets'});
+const map = new WebMap({
+  portalItem: { 
+    id: "f2e9b762544945f390ca4ac3671cfa72"
+  }
+});
 
 const view = new MapView({
   container: document.getElementById('viewDiv'),
-  map,
-  center: [-100.33, 25.69],
-  zoom: 10,
-  ui: {
-    components: [] // empty the UI
-  }
+  map
 });
 
 ReactDOM.render(
   <div>
-    <Zoom view={view}/>
-    <Attribution view={view}/>
-    <BasemapToggle view={view} secondaryBasemap={'dark-gray'}/>
+    <Navbar/>
+    <Selector view={view}/>
   </div>,
   document.getElementById('appDiv')
 );

@@ -8,7 +8,7 @@ window.dojoConfig = {
     name: 'react',
     location: locationPath + '/bower_components/react/',
     main: 'react'
-  }, {
+  },{
     name: 'app',
     location: locationPath + '/dist',
     main: 'main'

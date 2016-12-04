@@ -17,6 +17,10 @@
   ],
   "private": true,
   "dependencies": {
-    "react": "~0.14.3"
+    "react": "~0.14.3",
+    "bootstrap": "^3.3.7"
+  },
+  "devDependencies": {
+    "cheerio": "^0.22.0"
   }
 }

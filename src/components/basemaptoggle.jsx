@@ -4,7 +4,7 @@ import BasemapToggleViewModel from 'esri/widgets/BasemapToggle/BasemapToggleView
 
 function bgImage(url) {
   return {
-    backgroundImage: `url(${url || ''})`
+    backgroundImage: `url(${url})`
   };
 }
 
@@ -13,21 +13,22 @@ export default class BasemapToggle extends React.Component{
     super(props);
     this.state = {
       vm: new BasemapToggleViewModel(),
-      secondaryThumbnailUrl: ''
+      nextBasemapThumbnailUrl: '',
+      activeBasemapThumbnailUrl:''
     };
   }
   static defaultProps = {
       view: {},
-      secondaryThumbnailUrl: '',
-      currentThumbnailUrl: '',
+      nextBasemapThumbnailUrl: '',
+      aciveBasemapThumbnailUrl: '',
       updating: false
   };
   updateThumbnails = (secondary, current)=> {
     let secInfo = this.state.vm.getBasemapInfo(secondary);
     let curInfo = this.state.vm.getBasemapInfo(current);
     this.setState({
-      secondaryThumbnailUrl: secInfo.thumbnailUrl,
-      currentThumbnailUrl: curInfo.thumbnailUrl
+      nextBasemapThumbnailUrl: secInfo.thumbnailUrl,
+      activeBasemapThumbnailUrl: curInfo.thumbnailUrl
     });
   }
 
@@ -39,18 +40,18 @@ export default class BasemapToggle extends React.Component{
     this.props.view.then(view => {
 
       this.state.vm.view = view;
-      this.state.vm.secondaryBasemap = this.props.secondaryBasemap;
+      this.state.vm.nextBasemap = this.props.secondaryBasemap;
 
-      let { secondaryBasemap, currentBasemap } = this.state.vm;
+      let { nextBasemap, activeBasemap } = this.state.vm;
 
       let info = this.state.vm.getBasemapInfo(this.props.secondaryBasemap || 'topo');
 
       this.setState({
-        secondaryThumbnailUrl: info.thumbnailUrl,
-        currentThumbnailUrl: this.state.vm.currentBasemap.thumbnailUrl
+        nextBasemapThumbnailUrl: info.thumbnailUrl,
+        aciveBasemapThumbnailUrl: this.state.vm.activeBasemap.thumbnailUrl
       });
 
-      watchUtils.watch(this.state.vm, 'secondaryBasemap', this.updateThumbnails);
+      watchUtils.watch(this.state.vm, 'nextBasemap', this.updateThumbnails);
       watchUtils.init(view, 'stationary', (updating) => {
         this.setState({ updating });
       });
@@ -60,17 +61,17 @@ export default class BasemapToggle extends React.Component{
 
   render() {
 
-    let currentThumbnailStyle = bgImage(this.state.currentThumbnailUrl);
+    let active = bgImage(this.state.activeBasemapThumbnailUrl);
 
-    let secondaryThumbnailStyle = bgImage(this.state.secondaryThumbnailUrl);
+    let next = bgImage(this.state.nextBasemapThumbnailUrl);
 
     let style = this.state.updating ? 'basemap-container' : 'basemap-container view-busy';
 
     return (
 
       <div className={style}>
-        <div className='basemap-item basemap-item-secondary' onClick={this.toggle} style={secondaryThumbnailStyle}></div>
-        <div className='basemap-item basemap-item-current' style={currentThumbnailStyle}></div>
+        <div className='basemap-item basemap-item-secondary' onClick={this.toggle} style={next}></div>
+        <div className='basemap-item basemap-item-current' style={active}></div>
       </div>
 
     );

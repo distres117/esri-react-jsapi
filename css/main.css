@@ -134,3 +134,21 @@ html, body {
   top: 1em;
   left: 1em;
 }
+
+.legend-pane{
+    position: absolute;
+    bottom: 40px;
+    background: white;
+    padding: 30px;
+    overflow: overlay;
+    right: 20px;
+    opacity: .7;
+}
+
+.navbar{
+    position: absolute;
+    height: 50px;
+    width:100%;
+    top: 0px;
+    background: lightsteelblue;
+}
